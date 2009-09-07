@@ -7,11 +7,11 @@ import readline #for bash-like history
 
 class CmdInterface(cmd.Cmd):
     """Main commandline interface"""
-
+    
     #Startup of class
     def __init__(self):
         cmd.Cmd.__init__(self)
-        self.promt = '# ' 
+        self.prompt = '# ' 
         #game = Game()
 
     #Set up interface before cmdloop is called
