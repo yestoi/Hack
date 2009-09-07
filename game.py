@@ -1,5 +1,6 @@
 import cmd
 import readline #for bash-like history
+import curses
 
 class Game:
     
@@ -26,7 +27,19 @@ class CmdInterface(cmd.Cmd):
     def __init__(self):
         cmd.Cmd.__init__(self)
         self.prompt = '# ' 
+
         self.Game = Game()
+        stdscr = curses.initscr()
+        curses.start_color()
+        curses.cbreak()
+        curses.def_prog_mode()
+
+        email_win = curses.newwin(5, 40, 20, 50)
+        email_win.addstr("This is a test")
+        stdscr.move(0,0)
+        stdscr.refresh()
+        email_win.refresh()
+        curses.reset_shell_mode()
 
        # COMMANDS
     def do_ls(self, line):
