@@ -1,34 +1,38 @@
 import cmd
 import readline #for bash-like history
 
-#class Game:
-    #TODO: interface to load files using yaml
+class Game:
+    
+    def __init__(self):
+        import yaml
+        file = open('hosts.yml')
+        self.hosts = yaml.safe_load(file)
+        file.close()
 
+        self.curr_host = "localhost"
+
+    def ls(self):
+        print self.hosts[self.curr_host]['files'].keys()
+        
 
 class CmdInterface(cmd.Cmd):
     """Main commandline interface"""
     
-    #Startup of class
     def __init__(self):
         cmd.Cmd.__init__(self)
         self.prompt = '# ' 
-        #game = Game()
+        self.Game = Game()
 
-    #Set up interface before cmdloop is called
-    #def preloop(slef):
-        #TODO: initalize ncurses
-        
-
-    # COMMANDS
+       # COMMANDS
     def do_ls(self, line):
         input = line.split()
         if len(input) == 1:
             print "not implemented"
         else:
-            print "lookup files"
+            self.Game.ls()
 
     def do_exit(self, line):
-        return 1 #TODO: implement clean exit 
+        return 1 
 
     def do_EOF(self, line):
         return 0 #ignore EOFs
