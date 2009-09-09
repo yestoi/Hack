@@ -1,7 +1,7 @@
 import cmd
 
 class Game:
-    
+    """Main game logic. Where the shit happens""" 
     def __init__(self):
         #TODO Temporary solution to loading dicts. Switch to shelve when finished
         import yaml
@@ -45,3 +45,15 @@ class CmdInterface(cmd.Cmd):
     def do_EOF(self, line):
         print "\n"
         return 0 #ignore EOFs
+
+class FakeIO:
+    """Interface to route IO to curses"""
+    def __init__(self, stdscr):
+        self.stdscr = stdscr
+    def write(self, line):
+        self.stdscr.addstr(line)
+        self.stdscr.refresh()
+    def readline(self):
+        return self.stdscr.getstr()
+
+

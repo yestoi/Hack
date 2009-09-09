@@ -2,26 +2,17 @@
 import curses
 import sys
 import atexit
-from game import CmdInterface, Game
+from game import Game, CmdInterface, FakeIO
 
 #TODO: Structure classes. Add docs. Start rolling
-
-class FakeIO:
-    def __init__(self):
-        global stdscr
-    def write(self, line):
-        stdscr.addstr(line)
-        stdscr.refresh()
-    def readline(self):
-        return stdscr.getstr()
 
 if __name__ == '__main__':
 
     stdscr = curses.initscr()
-    atexit.register(curses.endwin)
+    #atexit.register(curses.endwin)
     curses.echo()
 
-    f = FakeIO()
+    f = FakeIO(stdscr)
     sys.stdout = f
     sys.stdin = f
     sys.stderr = f
