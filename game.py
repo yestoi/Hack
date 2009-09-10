@@ -2,7 +2,9 @@ import cmd
 
 class Game:
     """Main game logic. Where the shit happens""" 
-    def __init__(self):
+    def __init__(self, Cli):
+        self.cli = Cli
+
         #TODO Temporary solution to loading dicts. Switch to shelve when finished
         import yaml
         file = open('hosts.yml')
@@ -23,16 +25,18 @@ class Game:
         #TODO: think of something else
         if (host == "contract.bbs.net"):
             print "Contracts"
-           
-
+    
+    def clear(self):
+        self.cli.cls = 1
 
 class CmdInterface(cmd.Cmd):
     """Main commandline interface"""
     
-    def __init__(self, Game):
+    def __init__(self, Game, Cli):
         cmd.Cmd.__init__(self)
         self.prompt = '# ' 
         self.game = Game
+        self.cli = Cli
 
        # INPUT 
     def do_ls(self, line):
@@ -55,15 +59,33 @@ class CmdInterface(cmd.Cmd):
     def do_EOF(self, line):
         print "\n"
         return 0 #ignore EOFs
+    
+    def do_clear(self, line):
+        self.game.clear()
 
-class FakeIO:
-    """Interface to route IO to curses"""
+        # RENDER
+    def postcmd(self, stop, line):
+        # So far we just need to clear the screen
+        if self.cli.cls != 0:
+            self.cli.clear()
+        return stop
+
+class CursesInterface:
     def __init__(self, stdscr):
         self.stdscr = stdscr
+        self.cls = 0
+
+    def clear(self):
+        self.stdscr.clear()
+        self.stdscr.refresh()
+        self.cls = 0
+
+    # IO hookup
     def write(self, line):
         self.stdscr.addstr(line)
         self.stdscr.refresh()
     def readline(self):
         return self.stdscr.getstr()
+
 
 

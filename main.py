@@ -2,7 +2,7 @@
 import curses
 import sys
 import atexit
-from game import Game, CmdInterface, FakeIO
+from game import Game, CmdInterface, CursesInterface
 
 #TODO: Structure classes. Add docs. Start rolling
 
@@ -12,12 +12,12 @@ if __name__ == '__main__':
     #atexit.register(curses.endwin)
     curses.echo()
 
-    f = FakeIO(stdscr)
-    sys.stdout = f
-    sys.stdin = f
-    sys.stderr = f
-    
-    g = Game()
+    cli = CursesInterface(stdscr)
+    sys.stdout = cli
+    sys.stdin = cli 
+    sys.stderr = cli 
 
-    Cmd = CmdInterface(g)
+    g = Game(cli)
+
+    Cmd = CmdInterface(g, cli)
     Cmd.cmdloop()
