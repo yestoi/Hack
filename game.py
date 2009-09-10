@@ -12,7 +12,6 @@ class Game:
         file.close()
 
         self.host = "localhost"
-        self.user = ""
         self.printwd = "/"
 
     def ls(self):
@@ -86,6 +85,3 @@ class CursesInterface:
         self.stdscr.refresh()
     def readline(self):
         return self.stdscr.getstr()
-
-
-
