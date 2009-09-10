@@ -19,6 +19,13 @@ class Game:
     def pwd(self):
         print self.printwd 
 
+    def telnet(self, host):
+        #TODO: think of something else
+        if (host == "contract.bbs.net"):
+            print "Contracts"
+           
+
+
 class CmdInterface(cmd.Cmd):
     """Main commandline interface"""
     
@@ -38,6 +45,9 @@ class CmdInterface(cmd.Cmd):
 
     def do_pwd(self, line):
         self.game.pwd()
+
+    def do_telnet(self, line):
+        self.game.telnet(line)
 
     def do_exit(self, line):
         return 1 
